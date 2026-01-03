@@ -8,6 +8,18 @@ const LoadDB = async () => {
 
 LoadDB();
 
+// POST API to add emails blog
+export async function POST(request) {
+    try {
+        const formData = await request.formData();
+        const emailData = { email: `${formData.get('email')}`,}
+        await EmailModel.create(emailData);
+        return NextResponse.json({ success: true, msg: "Email Subscribed" })
+    } catch(error) {
+        console.error(error);
+    }
+};
+
 // Get API for fetching all blog
 export async function GET(request) {
     const emailId = request.nextUrl.searchParams.get("id");
@@ -17,18 +29,6 @@ export async function GET(request) {
     } else {
         const emails = await EmailModel.find({});
         return NextResponse.json({ emails });
-    }
-};
-
-// POST API for create blog
-export async function POST(request) {
-    try {
-        const formData = await request.formData();
-        const emailData = { email: `${formData.get('email')}`,}
-        await EmailModel.create(emailData);
-        return NextResponse.json({ success: true, msg: "Email Subscribed" })
-    } catch(error) {
-        console.error(error);
     }
 };
 
