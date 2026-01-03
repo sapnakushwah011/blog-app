@@ -1,9 +1,32 @@
-import { blog_data } from "@/assets/assets"
 import BlogItem from "./BlogItem"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import axios from "axios";
+
+interface Blog {
+  _id: string;
+  title: string;
+  description: string;
+  category: string;
+  image: string;
+  author: string;
+  author_img: string;
+  date: string;
+  __v: number;
+}
 
 const BlogList = () => {
   const [menu , setMenu] = useState("All");
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+
+  const fetchBlogs = async () => {
+    const response = await axios.get("/api/blog");
+    const result = response.data.blogs || [];
+    setBlogs(result);
+  };
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
     
   return (
     <div>
@@ -15,8 +38,8 @@ const BlogList = () => {
       </div>
 
       <div className="flex flex-wrap justify-around gap-1 gap-y-10 mb-16 xl:max-24">
-        {blog_data.filter((i) => menu === "All" ? true : i.category === menu).map((item) => {
-            return <BlogItem key={item.id} id={item.id} image={item.image} title={item.title} description={item.description} category={item.category} />
+        {blogs.filter((i) => menu === "All" ? true : i.category === menu).map((item) => {
+            return <BlogItem  key={item._id} id={item._id}  image={item.image} title={item.title} description={item.description} category={item.category} />
         })}
       </div>
     </div>

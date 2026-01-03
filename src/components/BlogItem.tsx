@@ -3,7 +3,7 @@ import { assets } from "@/assets/assets";
 import Link from "next/link";
 
 type BlogItemProps = {
-  id: number,
+  id: string,
   title: string;
   description: string;
   category: string;
