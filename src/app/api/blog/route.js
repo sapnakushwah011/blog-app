@@ -59,5 +59,5 @@ export async function DELETE(request) {
     fs.unlink(`./public/${blog.image}`, () => {});
     await BlogModel.findByIdAndDelete(Id);
 
-    return NextResponse.json({ msg: "Blog Deleted." });
+    return NextResponse.json({ success: true, msg: "Blog Deleted." });
 };

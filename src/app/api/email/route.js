@@ -35,10 +35,7 @@ export async function GET(request) {
 // Delete API to delete blog
 export async function DELETE(request) {
     const Id = await request.nextUrl.searchParams.get("id");
-    const blog = await EmailModel.findById(Id);
-
-    fs.unlink(`./public/${blog.image}`, () => {});
     await EmailModel.findByIdAndDelete(Id);
 
-    return NextResponse.json({ msg: "Blog Deleted." });
+    return NextResponse.json({ success: true, msg: "Email Deleted." });
 };

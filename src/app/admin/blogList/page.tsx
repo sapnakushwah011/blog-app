@@ -30,9 +30,14 @@ export default function page() {
         if (!mongoId) return;
 
         const response = await axios.delete("/api/blog", { params: { id: mongoId } });
-        toast.success(response.data.msg);
-        fetchBlogs();
-    }
+
+        if (response.data.success) {
+            toast.success(response.data.msg);
+            fetchBlogs();
+        } else {
+            toast.error("Error");
+        }        
+    };
 
     useEffect(() => {
        fetchBlogs();
@@ -71,7 +76,6 @@ export default function page() {
                                deleteBlog={deleteBlog}
                             />
                         ))}
-                        
                     </tbody>
                 </table>
             </div>
