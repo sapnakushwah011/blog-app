@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { assets } from "@/assets/assets";
 import { useState } from "react";
@@ -24,7 +26,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="h-screen bg-[#0f1d3f] relative overflow-hidden flex items-center px-16">
+      <div className="h-screen bg-[#0f1d3f] relative overflow-hidden flex items-center px-12">
         {/* Left Content */}
         <div className="flex-1 text-white z-10">
           {/* Logo */}
@@ -65,17 +67,19 @@ export default function Header() {
 
         {/* Right Card */}
         <div className="flex-1 flex justify-end z-10">
-          <div className="bg-[#4a7a99] rounded-2xl p-8 w-[500px] relative">
+          <div className="bg-[#4a7a99] rounded-2xl p-8 w-[550px] relative">
             {/* Title */}
-            <p className="text-gray-200 text-xs uppercase mb-2">
+            <p className="text-gray-200 text-xs uppercase mb-2 mt-10">
               Innovative Design Solutions
             </p>
-            <h2 className="text-white text-2xl md:text-3xl font-bold mb-4">
-              Crafting Spaces That Inspire
+            <h2 className="text-white text-2xl md:text-3xl font-bold mb-6">
+              Crafting <br/>
+              Spaces That <br/>
+              Inspire
             </h2>
 
             {/* Description */}
-            <p className="text-gray-200 mb-6 text-sm">
+            <p className="text-gray-200 mb-4 text-sm">
               We transform ideas into timeless spaces through thoughtful design,
               modern aesthetics, and functional architecture tailored to your
               lifestyle.
@@ -83,14 +87,16 @@ export default function Header() {
 
             {/* Button */}
             <button className="bg-[#0f1d3f] text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">
-              Explore Our Projects
+              Explore Designs
             </button>
 
             {/* Image */}
             <div className="absolute top-0 right-0 w-48 h-32 md:w-64 md:h-48 -translate-x-8 translate-y-8 rounded-lg overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1598300050972-944c9a60d8b3?auto=format&fit=crop&w=400&q=80"
-                alt="Hero"
+              <Image
+                src="https://images.unsplash.com/photo-1502673530728-f79b4cab31b1?auto=format&fit=crop&w=800&q=80"
+                alt="Blog"
+                width={400}
+                height={250}
                 className="w-full h-full object-cover"
               />
             </div>
