@@ -29,15 +29,17 @@ export default function Header() {
         <div className="flex-1 text-white z-10">
           {/* Logo */}
           <div className="mb-8">
-            <Image src={assets.logo_light} alt="" width={120}/>
+            <Image src={assets.logo_light} alt="" width={120} />
           </div>
 
           {/* Heading */}
           <div className="flex flex-col gap-4">
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight">Latest Blogs</h1>
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+              Latest Blogs
+            </h1>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Obcaecati pariatur quisquam atque expedita cupiditate quia
+              Discover expert tips, modern design ideas, and real-world project
+              stories that help you create spaces with purpose and style.
             </p>
           </div>
 
@@ -74,8 +76,9 @@ export default function Header() {
 
             {/* Description */}
             <p className="text-gray-200 mb-6 text-sm">
-              Transforming visions into reality with cutting-edge architectural
-              designs that blend functionality and aesthetics.
+              We transform ideas into timeless spaces through thoughtful design,
+              modern aesthetics, and functional architecture tailored to your
+              lifestyle.
             </p>
 
             {/* Button */}
