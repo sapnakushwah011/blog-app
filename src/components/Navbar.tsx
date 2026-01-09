@@ -9,7 +9,7 @@ export default function Navbar() {
   return (
     <nav className="bg-transparent text-white py-4 fixed top-0 left-0 w-full z-50">
       {/* Centered container */}
-      <div className="bg-[#283e75] rounded-2xl border max-w-3xl mx-auto px-4 py-5 flex items-center justify-between">
+      <div className="bg-[#4464b4] rounded-4xl max-w-3xl mx-auto px-4 py-5 flex items-center justify-between">
         {/* Desktop Menu */}
         <ul className="hidden md:flex flex-1 justify-center space-x-8">
           <li className="hover:text-gray-300 cursor-pointer">
