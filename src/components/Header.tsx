@@ -3,7 +3,6 @@ import { assets } from "@/assets/assets";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import Navbar from "./Navbar";
 
 export default function Header() {
   const [email, setEmail] = useState<string>("");
@@ -30,9 +29,7 @@ export default function Header() {
         <div className="flex-1 text-white z-10">
           {/* Logo */}
           <div className="mb-8">
-            <span className="text-4xl italic text-white font-bold">
-              @Blogger
-            </span>
+            <Image src={assets.logo_light} alt="" width={120}/>
           </div>
 
           {/* Heading */}
