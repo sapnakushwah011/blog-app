@@ -28,7 +28,7 @@ export default function Header() {
     <>
       <div className="h-screen bg-[#0f1d3f] relative overflow-hidden flex items-center px-12">
         {/* Left Content */}
-        <div className="flex-1 text-white z-10">
+        <div className="flex-1 text-white z-10 mt-12">
           {/* Logo */}
           <div className="mb-8">
             <Image src={assets.logo_light} alt="" width={120} />
@@ -66,7 +66,7 @@ export default function Header() {
         </div>
 
         {/* Right Card */}
-        <div className="flex-1 flex justify-end z-10">
+        <div className="flex-1 flex justify-end z-10 mt-12">
           <div className="bg-[#4a7a99] rounded-2xl p-8 w-[550px] relative">
             {/* Title */}
             <p className="text-gray-200 text-xs uppercase mb-2 mt-10">
