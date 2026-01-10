@@ -15,101 +15,140 @@ interface Data {
 }
 
 const DEFAULT_VALUES = {
-    title: "",
-    description: "",
-    category: "Startup",
-    author: "John Doe",
-    author_img: "/author_img.png",
-}
+  title: "",
+  description: "",
+  category: "Startup",
+  author: "John Doe",
+  author_img: "/author_img.png",
+};
 
-export default function page() {
-    const [image, setImage] = useState<File | null>(null);
-    const [data, setData] = useState<Data>(DEFAULT_VALUES);
+export default function Page() {
+  const [image, setImage] = useState<File | null>(null);
+  const [data, setData] = useState<Data>(DEFAULT_VALUES);
 
-    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
+  const onChangeHandler = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+  };
 
-        setData((prev) => ({
-            ...prev,
-            [name]: value
-        }));
-    };
+  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) =>
+      formData.append(key, value)
+    );
+    if (image) formData.append("image", image);
 
-        const formData = new FormData();
-        formData.append("title", data.title);
-        formData.append("description", data.description);
-        formData.append("category", data.category);
-        formData.append("author", data.author);
-        formData.append("author_img", data.author_img);
-        if (image) formData.append("image", image);
+    const response = await axios.post("/api/blog", formData);
+    if (response.data.success) {
+      toast.success(response.data.msg);
+      setData(DEFAULT_VALUES);
+      setImage(null);
+    } else {
+      toast.error("Error");
+    }
+  };
 
-        const response = await axios.post("/api/blog", formData);
-        if (response.data.success) {
-            toast.success(response.data.msg);
-            setData(DEFAULT_VALUES);
-            setImage(null);
-        } else {
-            toast.error("Error")
-        }
-    };
+  return (
+    <div className="min-h-screen bg-gray-100 flex justify-start px-10 py-5">
+      <div className="w-full max-w-3xl bg-white rounded-xl shadow-lg p-8">
+        <h1 className="text-2xl font-bold text-gray-800 mb-6">
+          Create New Blog
+        </h1>
 
+        <form onSubmit={onSubmitHandler} className="space-y-6">
+          {/* Thumbnail Upload */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Blog Thumbnail
+            </label>
+            <label
+              htmlFor="image"
+              className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-6 cursor-pointer hover:border-black transition"
+            >
+              <Image
+                src={!image ? assets.upload_area : URL.createObjectURL(image)}
+                width={160}
+                height={90}
+                alt="upload"
+                className="object-contain"
+              />
+              <p className="text-sm text-gray-500 mt-3">
+                Click to upload image
+              </p>
+            </label>
+            <input
+              type="file"
+              id="image"
+              hidden
+              required
+              onChange={(e) => setImage(e.target.files?.[0] || null)}
+            />
+          </div>
 
-    return (
-        <>
-           <form onSubmit={onSubmitHandler} className="pt-5 px-5 md:pt-12 sm:pl-16 min-h-screen">
-                <p className="text-xl">Upload thumbnail</p>
-                <label htmlFor="image">
-                    <Image className="mt-4" src={!image ? assets.upload_area : URL.createObjectURL(image)} width={140} height={70} alt="" />
-                </label>
-                <input 
-                    type="file" 
-                    id="image"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                            setImage(file);
-                        }
-                    }}
-                    hidden 
-                    required 
-                />
-                <p className="text-xl mt-4">Blog Title</p>
-                <input 
-                    className="w-full sm:w-[500px] mt-4 px-4 py-3 border" 
-                    type="text"  
-                    placeholder="Type here" 
-                    required
-                    name="title"
-                    value={data.title}
-                    onChange={onChangeHandler}
-                />
-                <p className="text-xl mt-4">Blog Description</p>
-                <textarea 
-                    className="w-full sm:w-[500px] mt-4 px-4 py-3 border" 
-                    placeholder="write content here" 
-                    rows={6} 
-                    required
-                    name="description"
-                    value={data.description}
-                    onChange={onChangeHandler}
-                />
-                <p className="text-xl mt-4">Blog Category</p>
-                <select 
-                    name="category" 
-                    className="w-40 mt-4 px-4 py-3 border text-gray-500"
-                    value={data.category}
-                    onChange={onChangeHandler}
-                >
-                    <option value="Startup">Startup</option>
-                    <option value="Technology">Technology</option>
-                    <option value="Lifestyle">Lifestyle</option>
-                </select>
-                <br />
-                <button type="submit" className="mt-8 w-40 h-12 bg-black text-white"> Add</button>
-           </form>
-        </>
-    )
+          {/* Title */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Blog Title
+            </label>
+            <input
+              type="text"
+              name="title"
+              placeholder="Enter blog title"
+              value={data.title}
+              onChange={onChangeHandler}
+              required
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+            />
+          </div>
+
+          {/* Description */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Blog Description
+            </label>
+            <textarea
+              name="description"
+              rows={6}
+              placeholder="Write blog content here..."
+              value={data.description}
+              onChange={onChangeHandler}
+              required
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+            />
+          </div>
+
+          {/* Category */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Category
+            </label>
+            <select
+              name="category"
+              value={data.category}
+              onChange={onChangeHandler}
+              className="w-48 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+            >
+              <option value="Startup">Startup</option>
+              <option value="Technology">Technology</option>
+              <option value="Lifestyle">Lifestyle</option>
+            </select>
+          </div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            className="w-40 h-12 bg-black text-white rounded-lg hover:bg-gray-900 transition active:scale-95"
+          >
+            Publish Blog
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }

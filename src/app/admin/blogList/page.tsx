@@ -17,69 +17,85 @@ interface Blog {
   __v: number;
 }
 
-export default function page() {
-    const [blogs, setBlogs] = useState<Blog[]>([]);
+export default function Page() {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
 
-    const fetchBlogs = async () => {
-       const response = await axios.get("/api/blog");
-       const result = response.data.blogs || [];
-       setBlogs(result);
-    };
+  const fetchBlogs = async () => {
+    const response = await axios.get("/api/blog");
+    setBlogs(response.data.blogs || []);
+  };
 
-    const deleteBlog = async (mongoId: string) => {
-        if (!mongoId) return;
+  const deleteBlog = async (mongoId: string) => {
+    if (!mongoId) return;
 
-        const response = await axios.delete("/api/blog", { params: { id: mongoId } });
+    const response = await axios.delete("/api/blog", {
+      params: { id: mongoId },
+    });
 
-        if (response.data.success) {
-            toast.success(response.data.msg);
-            fetchBlogs();
-        } else {
-            toast.error("Error");
-        }        
-    };
+    if (response.data.success) {
+      toast.success(response.data.msg);
+      fetchBlogs();
+    } else {
+      toast.error("Error");
+    }
+  };
 
-    useEffect(() => {
-       fetchBlogs();
-    }, []);
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
 
-    return (
-        <div className="flex-1 pt-5 px-5 sm:pt-12 sm:pl-16 min-h-screen">
-            <h1 className="text-white text-2xl font-bold">All Blogs</h1>
+  return (
+    <div className="min-h-screen bg-gray-100 p-6">
+      {/* Page Header */}
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">All Blogs</h1>
+        <p className="text-gray-500 mt-1">
+          Manage all published blogs here
+        </p>
+      </div>
 
-            <div className="relative h-[80vh] max-w-[850px] overflow-x-auto mt-4 border border-white rounded-lg scrollbar-hide">
-                <table className="w-full text-sm text-gray-500">
-                    <thead className="text-sm text-gray-700 text-left uppercase bg-gray-50">
-                        <tr>
-                            <th scope="col" className="hidden sm:block px-6 py-3">
-                                Author Name
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Blog Title
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Date
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Action
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {blogs.map((item, index) => (
-                            <BlogTableItem 
-                               key={index}
-                               mongoId={item._id}
-                               author={item.author} 
-                               author_img={item.author_img} 
-                               title={item.title} 
-                               date={item.date}
-                               deleteBlog={deleteBlog}
-                            />
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+      {/* Table Card */}
+      <div className="bg-white rounded-xl shadow-md overflow-hidden max-w-5xl">
+        <div className="overflow-x-auto max-h-[75vh]">
+          <table className="w-full text-sm text-gray-600">
+            <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 border-b">
+              <tr>
+                <th className="hidden sm:table-cell px-6 py-4">
+                  Author
+                </th>
+                <th className="px-6 py-4">Blog Title</th>
+                <th className="px-6 py-4">Date</th>
+                <th className="px-6 py-4 text-center">Action</th>
+              </tr>
+            </thead>
+
+            <tbody className="divide-y">
+              {blogs.length > 0 ? (
+                blogs.map((item, index) => (
+                  <BlogTableItem
+                    key={index}
+                    mongoId={item._id}
+                    author={item.author}
+                    author_img={item.author_img}
+                    title={item.title}
+                    date={item.date}
+                    deleteBlog={deleteBlog}
+                  />
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={4}
+                    className="text-center py-10 text-gray-400"
+                  >
+                    No blogs found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
-    )
+      </div>
+    </div>
+  );
 }

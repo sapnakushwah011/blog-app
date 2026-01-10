@@ -40,35 +40,46 @@ export default function page() {
   }, []);
 
   return (
-    <div className="flex-1 pt-5 px-5 sm:pt-12 sm:pl-16 min-h-screen">
-      <h1 className="text-white text-2xl font-bold">All Subscription</h1>
-      <div className="relative max-w-[600px] h-[80vh] overflow-x-auto mt-4 border border-white rounded-lg scrollbar-hide">
-        <table className="w-full text-small text-gray-500">
-          <thead className="text-xs text-left text-gray-700 uppercase bg-gray-50">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Email
-              </th>
-              <th scope="col" className="hidden sm:block px-6 py-3">
-                Date
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {emails.map((item, index) => (
-              <SubsTableItem
-                key={index}
-                mongoId={item._id}
-                email={item.email}
-                date={item.date}
-                deleteEmail={deleteEmail}
-              />
-            ))}
-          </tbody>
-        </table>
+    <div className="min-h-screen bg-gray-100 p-6">
+      {/* Page Header */}
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">All Subscription</h1>
+        <p className="text-gray-500 mt-1">Manage all subscriptions here</p>
+      </div>
+
+      {/* Table Card */}
+      <div className="bg-white rounded-xl shadow-md overflow-hidden max-w-5xl">
+        <div className="overflow-x-auto max-h-[75vh]">
+          <table className="w-full text-sm text-gray-600">
+            <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 border-b">
+              <tr>
+                <th className="hidden sm:table-cell px-6 py-4">Email</th>
+                <th className="px-6 py-4">Date</th>
+                <th className="px-6 py-4 text-center">Action</th>
+              </tr>
+            </thead>
+
+            <tbody className="divide-y">
+              {emails.length > 0 ? (
+                emails.map((item, index) => (
+                  <SubsTableItem
+                    key={index}
+                    mongoId={item._id}
+                    email={item.email}
+                    date={item.date}
+                    deleteEmail={deleteEmail}
+                  />
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="text-center py-10 text-gray-400">
+                    No blogs found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
