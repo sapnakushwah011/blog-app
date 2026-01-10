@@ -1,6 +1,7 @@
 import { assets } from "@/assets/assets";
 import Image from "next/image";
-import { TrashIcon } from "@heroicons/react/24/solid";
+import { TrashIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
 
 type BlogItemProps = {
   mongoId: string;
@@ -36,8 +37,9 @@ export default function BlogTableItem({ mongoId, author_img, author, title, date
         {blogDate ? blogDate.toDateString() : "01/01/2026"}
       </td>
 
-      <td onClick={() => deleteBlog(mongoId)} className="px-6 py-4 cursor-pointer">
-        <TrashIcon className="w-6 h-6 text-red-500" />
+      <td  className="px-6 py-4 flex justify-center gap-2 cursor-pointer">
+        <Link href={`/admin/editBlog/${mongoId}`}><PencilSquareIcon className="w-6 h-6 text-black" /></Link>
+        <span onClick={() => deleteBlog(mongoId)}><TrashIcon className="w-6 h-6 text-red-500" /></span>
       </td>
     </tr>
   );

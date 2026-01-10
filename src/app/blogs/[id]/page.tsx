@@ -17,6 +17,7 @@ export default function Page() {
     });
     setData(response.data.blog);
   };
+    console.log({ data });
 
   useEffect(() => {
     fetchBlogData();
