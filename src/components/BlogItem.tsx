@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { assets } from "@/assets/assets";
 import Link from "next/link";
 
 type BlogItemProps = {
@@ -7,7 +6,7 @@ type BlogItemProps = {
   title: string;
   description: string;
   category: string;
-  image: any;
+  image: string; 
 };
 
 export default function BlogItem({
@@ -18,34 +17,48 @@ export default function BlogItem({
   image,
 }: BlogItemProps) {
   return (
-    <div
-      className="max-w-[330px] sm:max-w-[300px] bg-[#4a7a99] rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-lg"
-    >
-      <Link href={`/blogs/${id}`}>
-        <Image
-          src={image}
-          alt=""
-          width={400}
-          height={400}
-        />
+    <div className="max-w-[330px] sm:max-w-[300px] bg-[#4a7a99] rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 group">
+      {/* Image with hover zoom effect */}
+      <Link href={`/blogs/${id}`} className="block overflow-hidden">
+        <div className="relative w-full h-48 sm:h-40">
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
       </Link>
-      <p className="ml-5 mt-5 px-2 py-1 inline-block bg-[#0f1d3f] rounded-2xl text-white text-sm">
+
+      {/* Category badge */}
+      <p className="ml-5 mt-3 px-3 py-1 inline-block bg-[#0f1d3f] rounded-2xl text-white text-sm font-medium">
         {category}
       </p>
 
+      {/* Content */}
       <div className="p-5">
-        <h5 className="mb-2 text-lg font-medium tracking-tight text-gray-900">
+        <h5 className="mb-2 text-lg font-semibold text-white line-clamp-2">
           {title}
         </h5>
         <p
-          className="mb-3 text-sm tracking-tight text-slate-200"
-          dangerouslySetInnerHTML={{ __html: description.slice(0, 120) }}
+          className="mb-4 text-sm text-slate-200 line-clamp-3"
+          dangerouslySetInnerHTML={{ __html: description }}
         ></p>
+
         <Link
           href={`/blogs/${id}`}
-          className="inline-flex items-center py-2 font-semibold text-center text-white"
+          className="inline-flex items-center gap-1 text-white font-semibold hover:text-gray-200 transition-colors"
         >
           Read More
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
+          </svg>
         </Link>
       </div>
     </div>

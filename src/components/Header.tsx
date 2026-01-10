@@ -37,8 +37,8 @@ export default function Header() {
         {/* Heading */}
         <div className="flex flex-col gap-4">
           <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-            Check <br/>
-            All Latest Blogs
+            Don’t Miss Out <br/>
+            on Our Latest Insights
           </h1>
           <p>
             Discover expert tips, modern design ideas, and real-world project

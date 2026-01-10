@@ -1,6 +1,7 @@
-import BlogItem from "./BlogItem"
-import { useEffect, useState } from "react"
+import BlogItem from "./BlogItem";
+import { useEffect, useState, useMemo } from "react";
 import axios from "axios";
+import BlogSkeleton from "./BlogSkeleton";
 
 interface Blog {
   _id: string;
@@ -15,7 +16,7 @@ interface Blog {
 }
 
 const BlogList = () => {
-  const [menu , setMenu] = useState("All");
+  const [menu, setMenu] = useState("All");
   const [loading, setLoading] = useState(true);
   const [blogs, setBlogs] = useState<Blog[]>([]);
 
@@ -25,9 +26,8 @@ const BlogList = () => {
       const response = await axios.get("/api/blog");
       const result = response.data.blogs || [];
       setBlogs(result);
-      setLoading(false);
-    } catch(error) {
-      console.error("Something went wrong");
+    } catch (err) {
+      console.error("Something went wrong", err);
     } finally {
       setLoading(false);
     }
@@ -36,27 +36,61 @@ const BlogList = () => {
   useEffect(() => {
     fetchBlogs();
   }, []);
-    
+
+  // Derive categories dynamically from blogs
+  const categories = useMemo(() => {
+    const uniqueCategories = Array.from(new Set(blogs.map(b => b.category)));
+    return ["All", ...uniqueCategories];
+  }, [blogs]);
+
+  // Filter blogs based on menu
+  const filteredBlogs = useMemo(() => {
+    if (menu === "All") return blogs;
+    return blogs.filter(b => b.category === menu);
+  }, [blogs, menu]);
+
+  const skeletons = Array.from({ length: 4 }, (_, idx) => idx);
+
   return (
     <>
-      <div className="flex justify-center gap-6 my-10">
-        <button onClick={() => setMenu("All")} className={menu === "All" ? `bg-white text-black py-1 px-4 rounded-sm` : "text-white"}>All</button>
-        <button onClick={() => setMenu("Technology")} className={menu === "Technology" ? `bg-white text-black py-1 px-4 rounded-sm` : "text-white"}>Technology</button>
-        <button onClick={() => setMenu("Startup")} className={menu === "Startup" ? `bg-white text-black py-1 px-4 rounded-sm` : "text-white"}>Startup</button>
-        <button onClick={() => setMenu("Lifestyle")} className={menu === "Lifestyle" ? `bg-white text-black py-1 px-4 rounded-sm` : "text-white"}>Lifestyle</button>
+      <div className="flex justify-center gap-6 my-10 flex-wrap">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setMenu(cat)}
+            aria-pressed={menu === cat}
+            className={`py-1 px-4 rounded-sm transition-colors duration-200
+              ${menu === cat ? "bg-white text-black" : "text-white hover:bg-white hover:text-black"}`}
+          >
+            {cat}
+          </button>
+        ))}
       </div>
 
       {loading ? (
-        <div className="text-2xl text-white text-center">Loading....</div>
+        <div className="flex flex-wrap justify-center gap-6 mb-16">
+          {skeletons.map((s) => (
+            <BlogSkeleton key={s} />
+          ))}
+        </div>
+      ): filteredBlogs.length === 0 ? (
+        <p className="text-center text-gray-300 my-10">No blogs found in this category.</p>
       ) : (
-        <div className="flex flex-wrap justify-around gap-1 gap-y-10 mb-16 xl:max-24">
-          {blogs.filter((i) => menu === "All" ? true : i.category === menu).map((item) => {
-            return <BlogItem  key={item._id} id={item._id}  image={item.image} title={item.title} description={item.description} category={item.category} />
-          })}
+        <div className="flex flex-wrap justify-around gap-1 gap-y-10 mb-16">
+          {filteredBlogs.map((item) => (
+            <BlogItem
+              key={item._id}
+              id={item._id}
+              image={item.image}
+              title={item.title}
+              description={item.description}
+              category={item.category}
+            />
+          ))}
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default BlogList
+export default BlogList;

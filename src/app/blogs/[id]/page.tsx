@@ -1,6 +1,6 @@
 "use client";
 
-import { assets, blog_data } from "@/assets/assets";
+import { assets } from "@/assets/assets";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,7 +25,7 @@ export default function Page() {
   if (!data) return <></>;
 
   return (
-    <div className="bg-[#4a7a99] m-0">
+    <div className="bg-[#9ec0d6] m-0">
       <div className="bg-[#0f1d3f] py-5 px-5 md:px-12 lg:px-28">
         <div className="flex justify-between items-center">
           <Link href={"/"}>
@@ -36,9 +36,6 @@ export default function Page() {
               className="w-[130px] sm:w-auto"
             />
           </Link>
-          <button className="flex items-center gap-2 font-medium py-1 px-3 sm:py-3 sm:px-6 text-white rounded-2xl border border-white">
-            Get Started <Image src={assets.arrow} alt="" />
-          </button>
         </div>
 
         <div className="text-center my-24 text-white">
@@ -71,11 +68,11 @@ export default function Page() {
           dangerouslySetInnerHTML={{ __html: data.description }}
         ></div>
 
-        <div className="my-24">
-          <p className="text-black font-semibold my-4">
+        <div className="mt-8 mb-4">
+          <p className="text-black font-semibold my-2">
             Share this article on social media.
           </p>
-          <div className="flex">
+          <div className="flex gap-3">
             <Image src={assets.facebook_icon} width={50} alt="" />
             <Image src={assets.twitter_icon} width={50} alt="" />
             <Image src={assets.googleplus_icon} width={50} alt="" />
