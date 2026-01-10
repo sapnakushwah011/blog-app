@@ -30,7 +30,7 @@ export default function Page() {
         <div className="flex justify-between items-center">
           <Link href={"/"}>
             <Image
-              src={assets.logo_light}
+              src={assets.blog_logo}
               width={118}
               alt=""
               className="w-[130px] sm:w-auto"

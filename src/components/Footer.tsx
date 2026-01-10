@@ -4,8 +4,8 @@ import { assets } from "@/assets/assets"
 export default function Footer() {
     return (
         <div className="flex justify-around flex-col gap-2 sm:gap-0 sm:flex-row border border-t-white py-5 items-center">
-            <Image src={assets.logo_light} alt="" width={120}/>
-            <p className="text-sm text-white">All right reserved. copyright @blogger</p>
+            <Image src={assets.blog_logo} alt="" width={120}/>
+            <p className="text-sm text-white">All right reserved. copyright @Draftly</p>
             <div className="flex">
                 <Image src={assets.facebook_icon} alt="" width={40} />
                 <Image src={assets.twitter_icon} alt="" width={40} />
