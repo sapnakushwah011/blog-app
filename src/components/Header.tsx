@@ -25,88 +25,86 @@ export default function Header() {
   };
 
   return (
-    <>
-      <div className="h-screen bg-[#0f1d3f] relative overflow-hidden flex items-center px-12">
-        {/* Left Content */}
-        <div className="flex-1 text-white z-10 mt-12">
-          {/* Logo */}
-          <div className="mb-8">
-            <Image src={assets.logo_light} alt="" width={120} />
-          </div>
+    <div className="min-h-screen bg-[#0f1d3f] relative flex flex-col lg:flex-row gap-4 items-center justify-center px-4 sm:px-6 lg:px-12">
+      {/* Left Content */}
+      <div className="flex-1 text-white z-10 mt-40 md:mt-30 text-center lg:text-start">
+        {/* Logo */}
+        <div className="mb-8 flex justify-center lg:justify-start">
+          <Image src={assets.logo_light} alt="" width={120} />
+        </div>
 
-          {/* Heading */}
-          <div className="flex flex-col gap-4">
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-              Latest Blogs
-            </h1>
-            <p>
-              Discover expert tips, modern design ideas, and real-world project
-              stories that help you create spaces with purpose and style.
-            </p>
-          </div>
+        {/* Heading */}
+        <div className="flex flex-col gap-4">
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+            Check All Latest Blogs
+          </h1>
+          <p>
+            Discover expert tips, modern design ideas, and real-world project
+            stories that help you create spaces with purpose and style.
+          </p>
+        </div>
 
-          <form
-            onSubmit={onSubmitHandler}
-            className="flex justify-between max-w-100 scale-75 sm:scale-100 mt-10 border"
+        <form
+          onSubmit={onSubmitHandler}
+          className="flex justify-between max-w-100 scale-75 sm:scale-100 mt-10 border rounded-4xl"
+        >
+          <input
+            type="email"
+            placeholder="Enter your email"
+            className="pl-4 outline-none"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <button
+            className="border-l border-white py-4 px-4 sm:px-8 active:bg-gray-600 active:text-white"
+            type="submit"
           >
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="pl-4 outline-none"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+            Subscribe
+          </button>
+        </form>
+      </div>
+
+      {/* Right Card */}
+      <div className="flex-1 flex justify-end z-10 mt-12 md:mt-30">
+        <div className="bg-[#4a7a99] rounded-2xl p-8 w-[550px] relative">
+          {/* Title */}
+          <p className="text-gray-200 text-xs uppercase mb-2 mt-10">
+            Innovative Design Solutions
+          </p>
+          <h2 className="text-white text-2xl md:text-3xl font-bold mb-6">
+            Crafting <br />
+            Spaces That <br />
+            Inspire
+          </h2>
+
+          {/* Description */}
+          <p className="text-gray-200 mb-4 text-sm">
+            We transform ideas into timeless spaces through thoughtful design,
+            modern aesthetics, and functional architecture tailored to your
+            lifestyle.
+          </p>
+
+          {/* Button */}
+          <button className="bg-[#0f1d3f] text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">
+            Explore Designs
+          </button>
+
+          {/* Image */}
+          <div className="absolute top-0 right-0 w-48 h-32 md:w-64 md:h-48 -translate-x-8 translate-y-8 rounded-lg overflow-hidden">
+            <Image
+              src="https://images.unsplash.com/photo-1502673530728-f79b4cab31b1?auto=format&fit=crop&w=800&q=80"
+              alt="Blog"
+              width={400}
+              height={250}
+              className="w-full h-full object-cover"
             />
-            <button
-              className="border-l border-white py-4 px-4 sm:px-8 active:bg-gray-600 active:text-white"
-              type="submit"
-            >
-              Subscribe
-            </button>
-          </form>
-        </div>
-
-        {/* Right Card */}
-        <div className="flex-1 flex justify-end z-10 mt-12">
-          <div className="bg-[#4a7a99] rounded-2xl p-8 w-[550px] relative">
-            {/* Title */}
-            <p className="text-gray-200 text-xs uppercase mb-2 mt-10">
-              Innovative Design Solutions
-            </p>
-            <h2 className="text-white text-2xl md:text-3xl font-bold mb-6">
-              Crafting <br/>
-              Spaces That <br/>
-              Inspire
-            </h2>
-
-            {/* Description */}
-            <p className="text-gray-200 mb-4 text-sm">
-              We transform ideas into timeless spaces through thoughtful design,
-              modern aesthetics, and functional architecture tailored to your
-              lifestyle.
-            </p>
-
-            {/* Button */}
-            <button className="bg-[#0f1d3f] text-white px-5 py-2 rounded-full text-sm hover:bg-gray-800 transition">
-              Explore Designs
-            </button>
-
-            {/* Image */}
-            <div className="absolute top-0 right-0 w-48 h-32 md:w-64 md:h-48 -translate-x-8 translate-y-8 rounded-lg overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1502673530728-f79b4cab31b1?auto=format&fit=crop&w=800&q=80"
-                alt="Blog"
-                width={400}
-                height={250}
-                className="w-full h-full object-cover"
-              />
-            </div>
           </div>
         </div>
-
-        {/* Optional Abstract Background Shapes */}
-        <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-600 rounded-full opacity-20 rotate-45"></div>
-        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-blue-400 rounded-full opacity-20 -rotate-12"></div>
       </div>
-    </>
+
+      {/* Optional Abstract Background Shapes */}
+      <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-600 rounded-full opacity-20 rotate-45"></div>
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-blue-400 rounded-full opacity-20 -rotate-12"></div>
+    </div>
   );
 }

@@ -9,9 +9,9 @@ export default function Navbar() {
   return (
     <nav className="bg-transparent text-white py-4 fixed top-0 left-0 w-full z-50">
       {/* Centered container */}
-      <div className="bg-[#4464b4] rounded-4xl max-w-3xl mx-auto px-4 py-5 flex items-center justify-between">
+      <div className="rounded-4xl border border-white max-w-xl lg:max-w-3xl mx-auto px-4 py-5 flex items-center justify-between">
         {/* Desktop Menu */}
-        <ul className="hidden md:flex flex-1 justify-center space-x-8">
+        <ul className="flex flex-1 justify-center space-x-8">
           <li className="hover:text-gray-300 cursor-pointer">
             <Link href="/">Home</Link>
           </li>
@@ -24,7 +24,7 @@ export default function Navbar() {
         </ul>
 
         {/* Mobile Hamburger */}
-        <div className="md:hidden">
+        {/* <div className="md:hidden">
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="focus:outline-none"
@@ -44,11 +44,11 @@ export default function Navbar() {
               ></path>
             </svg>
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
+      {/* {isOpen && (
         <div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-[90%] max-w-sm bg-[#0f1d3f] border border-gray-600 rounded-lg px-6 py-4 flex flex-col space-y-4 z-50 shadow-lg">
           <Link href="/" onClick={() => setIsOpen(false)} className="text-center hover:text-gray-300">Home</Link>
           <Link href="/category" onClick={() => setIsOpen(false)} className="text-center hover:text-gray-300">Category</Link>
@@ -57,7 +57,7 @@ export default function Navbar() {
             Get Started
           </button>
         </div>
-      )}
+      )} */}
     </nav>
   );
 }
