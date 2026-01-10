@@ -61,3 +61,49 @@ export async function DELETE(request) {
 
     return NextResponse.json({ success: true, msg: "Blog Deleted." });
 };
+
+// UPDATE BLOG API
+export async function PUT(request) {
+  try {
+    const blogId = request.nextUrl.searchParams.get("id");
+    const formData = await request.formData();
+
+    const blog = await BlogModel.findById(blogId);
+    if (!blog) {
+      return NextResponse.json({ success: false, msg: "Blog not found" }, { status: 404 });
+    }
+
+    let imagePath = blog.image;
+
+    // 🔹 If new image is uploaded
+    const image = formData.get("image");
+    if (image && image.name) {
+      // delete old image
+      fs.unlink(`./public${blog.image}`, () => {});
+
+      const timestamp = Date.now();
+      const bytes = await image.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+
+      const path = `./public/${timestamp}_${image.name}`;
+      await writeFile(path, buffer);
+      imagePath = `/${timestamp}_${image.name}`;
+    }
+
+    const updatedData = {
+      title: formData.get("title"),
+      description: formData.get("description"),
+      category: formData.get("category"),
+      author: formData.get("author"),
+      author_img: formData.get("author_img"),
+      image: imagePath,
+    };
+
+    await BlogModel.findByIdAndUpdate(blogId, updatedData);
+
+    return NextResponse.json({ success: true, msg: "Blog Updated" });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ success: false, msg: "Update failed" }, { status: 500 });
+  }
+}

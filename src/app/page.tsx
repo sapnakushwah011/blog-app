@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify';
 export default function Home() {
   return (
     <main className="bg-[#0f1d3f]">
-      <ToastContainer theme="dark" />
+      <ToastContainer />
       <Navbar />
       <Header />
       <BlogList />

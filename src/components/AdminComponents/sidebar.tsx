@@ -1,34 +1,75 @@
 "use client";
 
+import { useState } from "react";
 import { assets } from "@/assets/assets";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  HomeIcon,
+  PlusCircleIcon,
+  ListBulletIcon,
+  UsersIcon,
+  XMarkIcon,
+  Bars3Icon,
+} from "@heroicons/react/24/solid";
 
 export default function Sidebar() {
-    return(
-       <div className="flex flex-col bg-slate-100">
-            <div className="px-2 sm:pl-14 py-3 border border-black">
-                <Image src={assets.logo} width={120} alt=""/>
-            </div>
+  const [isOpen, setIsOpen] = useState(false);
 
-            <div className="w-28 sm:w-80 h-[100vh] relative py-12 border border-black">
-                <div className="w-[50%] sm:w-[80%] absolute right-0">
-                    <Link href="/admin/addProduct" className="flex items-center border border-black gap-3 font-medium px-3 py-2 bg-white shadow-[-5px_5px_0px_#000000]">
-                        <Image src={assets.add_icon} width={28} alt="" />
-                        <p>Add Blog</p>
-                    </Link>
+  const toggleSidebar = () => setIsOpen(!isOpen);
 
-                    <Link href="/admin/blogList" className="flex items-center border border-black gap-3 font-medium px-3 py-2 bg-white shadow-[-5px_5px_0px_#000000] mt-5">
-                        <Image src={assets.blog_icon} width={28} alt="" />
-                        <p>Blog List</p>
-                    </Link>
+  const menuItems = [
+    { href: "/admin", icon: HomeIcon, label: "Dashboard" },
+    { href: "/admin/addProduct", icon: PlusCircleIcon, label: "Add Blog" },
+    { href: "/admin/blogList", icon: ListBulletIcon, label: "Blog List" },
+    {
+      href: "/admin/subscriptions",
+      icon: UsersIcon,
+      label: "Subscription",
+    },
+  ];
 
-                    <Link href="/admin/subscriptions" className="flex items-center border border-black gap-3 font-medium px-3 py-2 bg-white shadow-[-5px_5px_0px_#000000] mt-5">
-                        <Image src={assets.email_icon} width={28} alt="" />
-                        <p>Subscription</p>
-                    </Link>
-                </div>
-            </div>
-       </div>
-    )
+  return (
+    <div
+      className={`flex flex-col bg-[#0f1d3f] transition-all duration-300 ${
+        isOpen ? "w-80" : "w-20"
+      }`}
+    >
+      {/* Logo + Hamburger */}
+      <div className="flex items-center justify-between px-2 sm:pl-4 py-3 border-b border-white">
+        {isOpen && <Image src={assets.blog_logo} width={120} alt="Logo" />}
+
+        {isOpen ? (
+          <button onClick={toggleSidebar} className="text-white border-none focus:border-none cursor-pointer">
+            <XMarkIcon className="w-8 h-8 text-white" />
+          </button>
+        ) : (
+          <button onClick={toggleSidebar} className="p-2">
+            <Bars3Icon className="w-8 h-8 text-white" />
+          </button>
+        )}
+      </div>
+
+      {/* Menu Items */}
+      <div className="flex flex-col mt-5 px-2">
+        {menuItems.map((item, index) => {
+          const Icon = item.icon;
+
+          return (
+            <Link
+              key={index}
+              href={item.href}
+              className={`flex items-center gap-3 font-medium px-3 py-2 text-white mb-3 transition-all duration-300 ${
+                !isOpen ? "justify-center" : ""
+              }`}
+            >
+              {/* <Image className="bg-white" src={item.icon} width={28} alt="" /> */}
+              <Icon className="w-6 h-6 text-white" />
+              {isOpen && <p>{item.label}</p>}
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
 }

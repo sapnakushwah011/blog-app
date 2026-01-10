@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { assets } from "@/assets/assets";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -54,7 +53,7 @@ export default function Header() {
           <input
             type="email"
             placeholder="Enter your email"
-            className="pl-4 outline-non flex-1"
+            className="pl-4 outline-none flex-1"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
