@@ -13,12 +13,22 @@ interface Email {
 
 export default function page() {
   const [emails, setEmails] = useState<Email[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchEmails = async () => {
-    const response = await axios.get("/api/email");
-    const result = response.data.emails || [];
-    setEmails(result);
+    try {
+      setLoading(true);
+      const response = await axios.get("/api/email");
+      const result = response.data.emails || [];
+      setEmails(result);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  useEffect(() => {
+    fetchEmails();
+  }, []);
 
   const deleteEmail = async (mongoId: string) => {
     if (!mongoId) return;
@@ -34,10 +44,6 @@ export default function page() {
       toast.error("Error");
     }
   };
-
-  useEffect(() => {
-    fetchEmails();
-  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">

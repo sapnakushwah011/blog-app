@@ -19,10 +19,16 @@ interface Blog {
 
 export default function Page() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchBlogs = async () => {
-    const response = await axios.get("/api/blog");
-    setBlogs(response.data.blogs || []);
+    try {
+      setLoading(true);
+      const response = await axios.get("/api/blog");
+      setBlogs(response.data.blogs || []);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const deleteBlog = async (mongoId: string) => {
@@ -49,9 +55,7 @@ export default function Page() {
       {/* Page Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-800">All Blogs</h1>
-        <p className="text-gray-500 mt-1">
-          Manage all published blogs here
-        </p>
+        <p className="text-gray-500 mt-1">Manage all published blogs here</p>
       </div>
 
       {/* Table Card */}
@@ -60,9 +64,7 @@ export default function Page() {
           <table className="w-full text-sm text-gray-600">
             <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 border-b">
               <tr>
-                <th className="hidden sm:table-cell px-6 py-4">
-                  Author
-                </th>
+                <th className="hidden sm:table-cell px-6 py-4">Author</th>
                 <th className="px-6 py-4">Blog Title</th>
                 <th className="px-6 py-4">Date</th>
                 <th className="px-6 py-4 text-center">Action</th>
@@ -84,10 +86,7 @@ export default function Page() {
                 ))
               ) : (
                 <tr>
-                  <td
-                    colSpan={4}
-                    className="text-center py-10 text-gray-400"
-                  >
+                  <td colSpan={4} className="text-center py-10 text-gray-400">
                     No blogs found
                   </td>
                 </tr>
